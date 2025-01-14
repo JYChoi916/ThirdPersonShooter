@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CrosshairTarget : MonoBehaviour
@@ -5,6 +6,8 @@ public class CrosshairTarget : MonoBehaviour
     Camera mainCamera;
     Ray ray;
     RaycastHit hitInfo;
+
+    public Transform playerTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,9 +18,18 @@ public class CrosshairTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ray.origin = mainCamera.transform.position;
+        Vector3 vectorToTarget = playerTransform.position - mainCamera.transform.position;
+        Vector3 proj = Vector3.Project(vectorToTarget, mainCamera.transform.forward);
+        ray.origin = mainCamera.transform.position + mainCamera.transform.forward * proj.magnitude;
         ray.direction = mainCamera.transform.forward;
-        Physics.Raycast(ray, out hitInfo);
-        transform.position = hitInfo.point;
+        if (Physics.Raycast(ray, out hitInfo))
+        {
+            transform.position = hitInfo.point;
+            Debug.DrawLine(ray.origin, hitInfo.point, Color.red, Time.deltaTime);
+        }
+        else
+        {
+            transform.position = mainCamera.transform.position + mainCamera.transform.forward * 20f;
+        }
     }
 }
