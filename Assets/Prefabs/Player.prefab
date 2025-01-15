@@ -33335,6 +33335,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFiring: 0
+  fireRate: 10
+  bulletSpeed: 1000
+  bulletDrop: 300
+  maxBulletLifeTime: 3
   muzzleFlash:
   - {fileID: 7107281951427456227}
   - {fileID: 7011042220033996969}

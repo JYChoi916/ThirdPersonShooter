@@ -9,7 +9,6 @@ public class CharacterAiming : MonoBehaviour
     public GameObject laserDotObject;
 
     Camera mainCamera;
-    RaycastWeapon weapon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,7 +16,6 @@ public class CharacterAiming : MonoBehaviour
         mainCamera = Camera.main;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        weapon = GetComponentInChildren<RaycastWeapon>();
     }
 
     // Update is called once per frame
@@ -32,32 +30,19 @@ public class CharacterAiming : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButton("Fire2"))
+        if(aimRigLayer)
         {
-            aimRigLayer.weight += Time.deltaTime / aimDuration;
-            laserDotObject.SetActive(true);
+            aimRigLayer.weight = 1.0f;
         }
-        else
-        {
-            aimRigLayer.weight -= Time.deltaTime / aimDuration;
-            laserDotObject.SetActive(false);
-        }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            weapon.StartFiring();
-        }
-
-        if(weapon.isFiring)
-        {
-            weapon.UpdateFiring(Time.deltaTime);
-        }
-
-        weapon.UpdateBullets(Time.deltaTime);
-        
-        if (Input.GetButtonUp("Fire1"))
-        {
-            weapon.StopFiring();
-        }
+        //if (Input.GetButton("Fire2"))
+        //{
+        //    aimRigLayer.weight += Time.deltaTime / aimDuration;
+        //    laserDotObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    aimRigLayer.weight -= Time.deltaTime / aimDuration;
+        //    laserDotObject.SetActive(false);
+        //}
     }
 }
