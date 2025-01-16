@@ -5,7 +5,6 @@ public class CharacterAiming : MonoBehaviour
 {
     public float turnSpeed = 15f;
     public float aimDuration = 0.3f;
-    public Rig aimRigLayer;
     public GameObject laserDotObject;
 
     Camera mainCamera;
@@ -30,10 +29,6 @@ public class CharacterAiming : MonoBehaviour
 
     private void Update()
     {
-        if(aimRigLayer)
-        {
-            aimRigLayer.weight = 1.0f;
-        }
         //if (Input.GetButton("Fire2"))
         //{
         //    aimRigLayer.weight += Time.deltaTime / aimDuration;

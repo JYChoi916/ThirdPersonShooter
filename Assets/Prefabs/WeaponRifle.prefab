@@ -140,7 +140,7 @@ MonoBehaviour:
   - {fileID: 445842937130415408}
   hitEffect: {fileID: 6594552043534829601}
   tracerEffect: {fileID: 7669017317354092417, guid: 38ec852c0a0a06f409f0649a0f40d72d, type: 3}
-  weaponAnimation: {fileID: 7400000, guid: 6e64d4574233c1e4ebb63c0fccf96d1a, type: 2}
+  weaponAnimation: Rifle
   raycastOrigin: {fileID: 9098569182357923942}
   raycastDestination: {fileID: 0}
 --- !u!1 &1418204756428716096
