@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4460170854520740333}
   - component: {fileID: 2549495984193681668}
   - component: {fileID: 7961740336403802548}
-  - component: {fileID: 1114664636400657254}
   - component: {fileID: 6184271542858250556}
   m_Layer: 0
   m_Name: WeaponRifle
@@ -96,28 +95,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1114664636400657254
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895748404522108536}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43340036666738112, guid: 86a9670708d20324e8b946b3db38bad8, type: 2}
 --- !u!114 &6184271542858250556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c661aa1949f43b24ebb3cf8b064520df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSlot: 0
   isFiring: 0
   fireRate: 10
   bulletSpeed: 1000
@@ -140,7 +118,7 @@ MonoBehaviour:
   - {fileID: 445842937130415408}
   hitEffect: {fileID: 6594552043534829601}
   tracerEffect: {fileID: 7669017317354092417, guid: 38ec852c0a0a06f409f0649a0f40d72d, type: 3}
-  weaponAnimation: Rifle
+  weaponName: Rifle
   raycastOrigin: {fileID: 9098569182357923942}
   raycastDestination: {fileID: 0}
 --- !u!1 &1418204756428716096

@@ -11,18 +11,23 @@ public class RaycastWeapon : MonoBehaviour
         public Vector3 initPosition;
         public Vector3 initVelocity;
         public TrailRenderer tracer;
+        public int bounce;
+        public float impulse;
     }
 
+    public ActiveWeapon.WeaponSlot weaponSlot;
     public bool isFiring = false;
     public int fireRate = 25;
     public float bulletSpeed = 1000.0f;
     public float bulletDrop = 0.0f;
     public float maxBulletLifeTime = 3.0f;
+    public int maxBounce = 2;
+    public float bulletImpulse = 20f;
 
     public ParticleSystem[] muzzleFlash;
     public ParticleSystem hitEffect;
     public TrailRenderer tracerEffect;
-    public string weaponAnimation;
+    public string weaponName;
 
     public Transform raycastOrigin;
     public Transform raycastDestination;
@@ -45,6 +50,8 @@ public class RaycastWeapon : MonoBehaviour
         bullet.initPosition = position;
         bullet.initVelocity = velocity;
         bullet.time = 0f;
+        bullet.bounce = maxBounce;
+        bullet.impulse = bulletImpulse;
         bullet.tracer = Instantiate(tracerEffect, position, Quaternion.identity);
         bullet.tracer.AddPosition(position);
         return bullet;
@@ -97,18 +104,34 @@ public class RaycastWeapon : MonoBehaviour
         float distance = direction.magnitude;
         ray.origin = start;
         ray.direction = direction;
+
         if (Physics.Raycast(ray, out hitInfo, distance))
         {
             hitEffect.transform.position = hitInfo.point;
             hitEffect.transform.forward = hitInfo.normal;
             hitEffect.Emit(1);
-            bullet.tracer.transform.position = hitInfo.point;
+
             bullet.time = maxBulletLifeTime;
+            end = hitInfo.point;
+
+            // µµ≈∫
+            if (bullet.bounce > 0)
+            {
+                bullet.time = 0;
+                bullet.initPosition = hitInfo.point;
+                bullet.initVelocity = Vector3.Reflect(bullet.initVelocity, hitInfo.normal);
+                bullet.bounce--;
+            }
+
+            // √Êµπ ¿”∆ﬁΩ∫
+            var rb2d = hitInfo.collider.GetComponent<Rigidbody>();
+            if (rb2d != null)
+            {
+                rb2d.AddForceAtPosition(ray.direction * bullet.impulse, hitInfo.point, ForceMode.Impulse);
+            }
         }
-        else
-        {
-            bullet.tracer.transform.position = end;
-        }
+
+        bullet.tracer.transform.position = end;
     }
 
     private void FireBullet()

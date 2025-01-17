@@ -4923,7 +4923,6 @@ GameObject:
   - component: {fileID: 1969231244647990574}
   - component: {fileID: 8758149831661670359}
   - component: {fileID: 4491193847595105939}
-  - component: {fileID: 8065569137909885880}
   - component: {fileID: 2856888689301087456}
   m_Layer: 0
   m_Name: WeaponPistol
@@ -5006,28 +5005,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8065569137909885880
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 975207860591104634}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43890296914359302, guid: 228bf81ca49ad934aab88b0e66ec0461, type: 2}
 --- !u!114 &2856888689301087456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5040,17 +5017,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c661aa1949f43b24ebb3cf8b064520df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSlot: 1
   isFiring: 0
   fireRate: 3
   bulletSpeed: 500
   bulletDrop: 150
   maxBulletLifeTime: 3
+  maxBounce: 1
+  bulletImpulse: 10
   muzzleFlash:
   - {fileID: 1207093178209311675}
   - {fileID: 3993758604051265693}
   hitEffect: {fileID: 5375440660763671185}
   tracerEffect: {fileID: 7669017317354092417, guid: f62578562aad23c4ba4df7c60805b2f3, type: 3}
-  weaponAnimation: Pistol
+  weaponName: Pistol
   raycastOrigin: {fileID: 7658314644954256686}
   raycastDestination: {fileID: 0}
 --- !u!1 &2809659064012724250
