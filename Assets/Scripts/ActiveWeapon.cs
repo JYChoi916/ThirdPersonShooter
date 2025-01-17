@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using System.Collections;
+using Unity.Cinemachine;
 
 
 public class ActiveWeapon : MonoBehaviour
@@ -18,6 +19,8 @@ public class ActiveWeapon : MonoBehaviour
     public Transform[] weaponSlots;
 
     public Animator rigController;
+
+    public CinemachineOrbitalFollow playerCamera;
 
 
     RaycastWeapon[] equipped_weapons = new RaycastWeapon[2];
@@ -105,6 +108,8 @@ public class ActiveWeapon : MonoBehaviour
         weapon.transform.parent = weaponSlots[weaponSlotIndex];
         weapon.transform.localPosition = localPosition;
         weapon.transform.localRotation = Quaternion.identity;
+        weapon.recoil.playerCamera = playerCamera;
+        weapon.recoil.rigController = rigController;
         equipped_weapons[weaponSlotIndex] = weapon;
 
         SetActiveWeapon(weapon.weaponSlot);

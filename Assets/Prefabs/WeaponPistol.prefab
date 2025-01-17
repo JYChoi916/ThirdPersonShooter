@@ -4924,6 +4924,8 @@ GameObject:
   - component: {fileID: 8758149831661670359}
   - component: {fileID: 4491193847595105939}
   - component: {fileID: 2856888689301087456}
+  - component: {fileID: -8248243825064276285}
+  - component: {fileID: 7474700079443981260}
   m_Layer: 0
   m_Name: WeaponPistol
   m_TagString: Untagged
@@ -5019,7 +5021,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSlot: 1
   isFiring: 0
-  fireRate: 3
+  fireRate: 1
   bulletSpeed: 500
   bulletDrop: 150
   maxBulletLifeTime: 3
@@ -5033,6 +5035,78 @@ MonoBehaviour:
   weaponName: Pistol
   raycastOrigin: {fileID: 7658314644954256686}
   raycastDestination: {fileID: 0}
+  recoil: {fileID: 0}
+--- !u!114 &-8248243825064276285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975207860591104634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ca78d41ac6a4494aa251e5dc1f3b2f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  cameraShake: {fileID: 0}
+  rigController: {fileID: 0}
+  verticalRecoil: 1
+  horizontalRecoil: 1.5
+  duration: 0.1
+--- !u!114 &7474700079443981260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975207860591104634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 1
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 3
+    DissipationRate: 0.25
+    RawSignal: {fileID: 11400000, guid: c90c99fb4c342e346b8468d4a0f1bf82, type: 2}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -0.1, z: 0}
 --- !u!1 &2809659064012724250
 GameObject:
   m_ObjectHideFlags: 0

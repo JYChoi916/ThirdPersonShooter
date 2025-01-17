@@ -31,11 +31,17 @@ public class RaycastWeapon : MonoBehaviour
 
     public Transform raycastOrigin;
     public Transform raycastDestination;
+    public WeaponRecoil recoil;
 
     Ray ray;
     RaycastHit hitInfo;
     float accumulatedTime;
     List<Bullet> bullets = new List<Bullet>();
+
+    void Awake()
+    {
+        recoil = GetComponent<WeaponRecoil>();
+    }
 
     Vector3 GetPosition(Bullet bullet)
     {
@@ -128,10 +134,14 @@ public class RaycastWeapon : MonoBehaviour
             if (rb2d != null)
             {
                 rb2d.AddForceAtPosition(ray.direction * bullet.impulse, hitInfo.point, ForceMode.Impulse);
+                bullet.bounce = 0;
             }
         }
 
-        bullet.tracer.transform.position = end;
+        if (bullet.tracer)
+        {
+            bullet.tracer.transform.position = end;
+        }
     }
 
     private void FireBullet()
@@ -144,6 +154,8 @@ public class RaycastWeapon : MonoBehaviour
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed;
         Bullet bullet = CreateBullet(raycastOrigin.position, velocity);
         bullets.Add(bullet);
+
+        recoil.GenerateRecoil(weaponName);
     }
 
     public void StopFiring()
