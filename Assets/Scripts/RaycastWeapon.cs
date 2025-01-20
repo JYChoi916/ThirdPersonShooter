@@ -32,6 +32,7 @@ public class RaycastWeapon : MonoBehaviour
     public Transform raycastOrigin;
     public Transform raycastDestination;
     public WeaponRecoil recoil;
+    public GameObject magazine;
 
     Ray ray;
     RaycastHit hitInfo;
