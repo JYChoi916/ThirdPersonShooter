@@ -22,6 +22,7 @@ public class ActiveWeapon : MonoBehaviour
 
     public CinemachineOrbitalFollow playerCamera;
 
+    public AmmoWidget ammoWidget;
 
     RaycastWeapon[] equipped_weapons = new RaycastWeapon[2];
     int activeWeaponIndex;
@@ -45,6 +46,11 @@ public class ActiveWeapon : MonoBehaviour
             return null;
 
         return equipped_weapons[index];
+    }
+
+    public RaycastWeapon GetActiveWeapon()
+    {
+        return GetWeapon(activeWeaponIndex);
     }
 
     // Update is called once per frame
@@ -113,6 +119,8 @@ public class ActiveWeapon : MonoBehaviour
         equipped_weapons[weaponSlotIndex] = weapon;
 
         SetActiveWeapon(weapon.weaponSlot);
+
+        ammoWidget.Refresh(weapon.ammoCount, weapon.clipSize);
     }
 
     void ToggleActiveWeapon()
@@ -145,6 +153,7 @@ public class ActiveWeapon : MonoBehaviour
         yield return StartCoroutine(HolsterWeapon(holsterIndex));
         yield return StartCoroutine(ActivateWeapon(activeIndex));
         activeWeaponIndex = activeIndex;
+        var weapon = GetActiveWeapon();
     }
 
     IEnumerator HolsterWeapon(int index)

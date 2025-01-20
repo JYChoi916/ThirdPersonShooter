@@ -5026,7 +5026,7 @@ MonoBehaviour:
   bulletDrop: 150
   maxBulletLifeTime: 3
   maxBounce: 1
-  bulletImpulse: 10
+  bulletImpulse: 3
   muzzleFlash:
   - {fileID: 1207093178209311675}
   - {fileID: 3993758604051265693}
@@ -5036,6 +5036,7 @@ MonoBehaviour:
   raycastOrigin: {fileID: 7658314644954256686}
   raycastDestination: {fileID: 0}
   recoil: {fileID: 0}
+  magazine: {fileID: 0}
 --- !u!114 &-8248243825064276285
 MonoBehaviour:
   m_ObjectHideFlags: 0
