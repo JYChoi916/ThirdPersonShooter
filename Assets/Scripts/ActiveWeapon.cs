@@ -29,6 +29,7 @@ public class ActiveWeapon : MonoBehaviour
 
     public bool isHolstered = false;
     string equipAnimationStateName;
+    ReloadWeapon reloadWeapon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,6 +39,8 @@ public class ActiveWeapon : MonoBehaviour
         {
             Equip(existingWeapon, existingWeapon.transform.localPosition);
         }
+
+        reloadWeapon = GetComponent<ReloadWeapon>();
     }
 
     RaycastWeapon GetWeapon(int index)
@@ -61,14 +64,17 @@ public class ActiveWeapon : MonoBehaviour
         // To do :리로드 중에는 아래 로직을 모두 하지 말아야 한다.
         if (weapon)
         {
-            if (Input.GetButtonDown("Fire1") && isHolstered == false)
+            if (reloadWeapon.isReloading == false)
             {
-                weapon.StartFiring();
-            }
+                if (Input.GetButtonDown("Fire1") && isHolstered == false)
+                {
+                    weapon.StartFiring();
+                }
 
-            if (weapon.isFiring && isHolstered == false)
-            {
-                weapon.UpdateFiring(Time.deltaTime);
+                if (weapon.isFiring && isHolstered == false)
+                {
+                    weapon.UpdateFiring(Time.deltaTime);
+                }
             }
 
             weapon.UpdateBullets(Time.deltaTime);
