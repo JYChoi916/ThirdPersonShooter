@@ -21,7 +21,7 @@ public class ReloadWeapon : MonoBehaviour
     void Update()
     {
         RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
-        if (weapon)
+        if (weapon && activeWeapon.isHolstered == false)
         {
             if (Input.GetKeyDown(KeyCode.R) || weapon.ammoCount <= 0)
             {

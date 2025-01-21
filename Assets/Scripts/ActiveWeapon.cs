@@ -27,7 +27,7 @@ public class ActiveWeapon : MonoBehaviour
     RaycastWeapon[] equipped_weapons = new RaycastWeapon[2];
     int activeWeaponIndex;
 
-    bool isHolstered = false;
+    public bool isHolstered = false;
     string equipAnimationStateName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,6 +58,7 @@ public class ActiveWeapon : MonoBehaviour
     {
         var weapon = GetWeapon(activeWeaponIndex);
 
+        // To do :리로드 중에는 아래 로직을 모두 하지 말아야 한다.
         if (weapon)
         {
             if (Input.GetButtonDown("Fire1") && isHolstered == false)
