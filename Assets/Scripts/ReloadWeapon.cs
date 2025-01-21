@@ -6,6 +6,7 @@ public class ReloadWeapon : MonoBehaviour
     public WeaponAnimationEvents animationEvents;
     public ActiveWeapon activeWeapon;
     public Transform leftHand;
+    public Transform revolverMagTransform;
     public AmmoWidget ammoWidget;
 
     GameObject magazineHand;
@@ -38,11 +39,20 @@ public class ReloadWeapon : MonoBehaviour
     {
         switch(eventName)
         {
+            case "PlayReloadSound":
+                PlayReloadSound();
+                break;
+            case "OpenMagazine":
+                OpenMagazine();
+                break;
             case "DetachMagzineFromWeapon":
-                DetachMagzineFromWeapon();
+                DetachMagzineFromRifle();
                 break;
             case "DropMagazine":
                 DropMagazine();
+                break;
+            case "DropMagazineFromPistol":
+                DropMagazineFromPistol();
                 break;
             case "CreateNewMagazine":
                 CreateNewMagazine();
@@ -50,15 +60,23 @@ public class ReloadWeapon : MonoBehaviour
             case "AttachMagazineToWeapon":
                 AttachMagazineToWeapon();
                 break;
+            case "CloseMagazine":
+                CloseMagazine();
+                break;
         }
     }
 
-    void DetachMagzineFromWeapon()
+    void OpenMagazine()
+    {
+        RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
+        weapon.OpenMagazine(true);
+    }
+
+    void DetachMagzineFromRifle()
     {
         RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
         magazineHand = Instantiate(weapon.magazine, leftHand, true);
         weapon.magazine.SetActive(false);
-
     }
 
     void DropMagazine()
@@ -69,9 +87,29 @@ public class ReloadWeapon : MonoBehaviour
         magazineHand.SetActive(false);
     }
 
+    void DropMagazineFromPistol()
+    {
+        RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
+        GameObject droppedMagazine = Instantiate(weapon.magazine, weapon.magazine.transform.position, weapon.magazine.transform.rotation);
+        droppedMagazine.AddComponent<Rigidbody>();
+        droppedMagazine.AddComponent<BoxCollider>();
+        weapon.magazine.SetActive(false);
+    }
+
     void CreateNewMagazine()
     {
-        magazineHand.SetActive(true);
+        if (magazineHand != null)
+        {
+            magazineHand.SetActive(true);
+        }
+        else
+        {
+            RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
+            magazineHand = Instantiate(weapon.magazine, revolverMagTransform);
+            magazineHand.transform.localPosition = Vector3.zero;
+            magazineHand.transform.localRotation = Quaternion.identity;
+            magazineHand.SetActive(true);
+        }
     }
 
     void AttachMagazineToWeapon()
@@ -82,5 +120,17 @@ public class ReloadWeapon : MonoBehaviour
         rigController.ResetTrigger("Reload_Weapon");
         weapon.ammoCount = weapon.clipSize;
         ammoWidget.Refresh(weapon.ammoCount, weapon.clipSize);
+    }
+
+    void CloseMagazine()
+    {
+        RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
+        weapon.OpenMagazine(false);
+    }
+
+    void PlayReloadSound()
+    {
+        RaycastWeapon weapon = activeWeapon.GetActiveWeapon();
+        weapon.PlayReloadSound();
     }
 }

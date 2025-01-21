@@ -34,6 +34,9 @@ public class RaycastWeapon : MonoBehaviour
     public WeaponRecoil recoil;
     public GameObject magazine;
 
+    public AudioClip fireClip;
+    public AudioClip reloadClip;
+
     public int ammoCount;
     public int clipSize;
 
@@ -70,8 +73,8 @@ public class RaycastWeapon : MonoBehaviour
     public void StartFiring()
     {
         isFiring = true;
-        accumulatedTime = 0f;
         FireBullet();
+        accumulatedTime = -(1.0f / fireRate);
     }
 
     public void UpdateFiring(float deltaTime)
@@ -156,6 +159,8 @@ public class RaycastWeapon : MonoBehaviour
         }
         ammoCount--;
 
+        AudioSource source = GetComponent<AudioSource>();
+        source.PlayOneShot(fireClip);
         foreach (var particle in muzzleFlash)
         {
             particle.Emit(1);
@@ -171,5 +176,21 @@ public class RaycastWeapon : MonoBehaviour
     public void StopFiring()
     {
         isFiring = false;
+    }
+
+    public void OpenMagazine(bool open)
+    {
+        Animation animation = GetComponent<Animation>();
+        if (animation)
+        {
+            animation["OpenMagazine"].speed = open ? 1 : -1;
+            animation.Play("OpenMagazine");
+        }
+    }
+
+    public void PlayReloadSound()
+    {
+        AudioSource source = GetComponent<AudioSource>();
+        source.PlayOneShot(reloadClip);
     }
 }

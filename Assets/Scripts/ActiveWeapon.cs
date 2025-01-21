@@ -118,6 +118,8 @@ public class ActiveWeapon : MonoBehaviour
         weapon.recoil.rigController = rigController;
         equipped_weapons[weaponSlotIndex] = weapon;
 
+        handIK.weight = 1.0f;
+
         SetActiveWeapon(weapon.weaponSlot);
 
         ammoWidget.Refresh(weapon.ammoCount, weapon.clipSize);
