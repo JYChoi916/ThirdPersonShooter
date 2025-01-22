@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GameScene Baking Set
   m_EditorClassIdentifier: 
   singleSceneMode: 1
-  dialogNoProbeVolumeInSetShown: 0
+  dialogNoProbeVolumeInSetShown: 1
   settings:
-    m_Version: 0
+    m_Version: 1
     dilationSettings:
       enableDilation: 0
       dilationDistance: 0
@@ -27,14 +27,15 @@ MonoBehaviour:
       validityThreshold: 0.25
       outOfGeoOffset: 0
       searchMultiplier: 0
-      rayOriginBias: 0
+      rayOriginBias: -0.001
       collisionMask:
         serializedVersion: 2
-        m_Bits: 0
+        m_Bits: 4294967291
   m_SceneGUIDs:
   - 59367915a86c0ef4ab23346c8e6c6094
   obsoleteScenesToNotBake: []
-  m_LightingScenarios: []
+  m_LightingScenarios:
+  - Default
   cellDescs:
     m_Keys: 
     m_Values: []
@@ -74,11 +75,11 @@ MonoBehaviour:
   globalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  bakedSimplificationLevels: -1
-  bakedMinDistanceBetweenProbes: -1
+  bakedSimplificationLevels: 4
+  bakedMinDistanceBetweenProbes: 1
   bakedProbeOcclusion: 0
-  bakedSkyOcclusionValue: -1
-  bakedSkyShadingDirectionValue: -1
+  bakedSkyOcclusionValue: 0
+  bakedSkyShadingDirectionValue: 0
   bakedProbeOffset: {x: 0, y: 0, z: 0}
   bakedMaskCount: 1
   bakedLayerMasks:

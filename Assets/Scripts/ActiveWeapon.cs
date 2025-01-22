@@ -28,6 +28,7 @@ public class ActiveWeapon : MonoBehaviour
     int activeWeaponIndex;
 
     public bool isHolstered = false;
+    public bool isChanging = false;
     string equipAnimationStateName;
     ReloadWeapon reloadWeapon;
 
@@ -43,6 +44,18 @@ public class ActiveWeapon : MonoBehaviour
         reloadWeapon = GetComponent<ReloadWeapon>();
     }
 
+    public bool IsFiring()
+    {
+        var activeWeapon = GetActiveWeapon();
+
+        if (activeWeapon == null)
+        {
+            return false;
+        }
+
+        return activeWeapon.isFiring;
+    }
+
     RaycastWeapon GetWeapon(int index)
     {
         if (index < 0 || index >= equipped_weapons.Length)
@@ -56,12 +69,17 @@ public class ActiveWeapon : MonoBehaviour
         return GetWeapon(activeWeaponIndex);
     }
 
+    public int GetActiveWeaponIndex()
+    {
+        return activeWeaponIndex;
+    }
+
     // Update is called once per frame
     void Update()
     {
         var weapon = GetWeapon(activeWeaponIndex);
 
-        // To do :¸®·Îµå Áß¿¡´Â ¾Æ·¡ ·ÎÁ÷À» ¸ğµÎ ÇÏÁö ¸»¾Æ¾ß ÇÑ´Ù.
+        // To do :ë¦¬ë¡œë“œ ì¤‘ì—ëŠ” ì•„ë˜ ë¡œì§ì„ ëª¨ë‘ í•˜ì§€ ë§ì•„ì•¼ í•œë‹¤.
         if (weapon)
         {
             if (reloadWeapon.isReloading == false)
@@ -168,19 +186,22 @@ public class ActiveWeapon : MonoBehaviour
     IEnumerator HolsterWeapon(int index)
     {
         isHolstered = true;
+        isChanging = true;
         var weapon = GetWeapon(index);
         if (weapon)
         {
             rigController.SetBool("Holster_Weapon", true);
             do
             {
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForSeconds(0.05f);
             } while (rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
         }
+        isChanging = false;
     }
 
     IEnumerator ActivateWeapon(int index)
     {
+        isChanging = true;
         var weapon = GetWeapon(index);
         if (weapon)
         {
@@ -189,9 +210,10 @@ public class ActiveWeapon : MonoBehaviour
             rigController.Play(equipAnimationStateName);
             do
             {
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForSeconds(0.05f);
             } while (rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
             isHolstered = false;
         }
+        isChanging = false;
     }
 }

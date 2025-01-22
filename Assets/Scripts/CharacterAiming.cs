@@ -20,10 +20,10 @@ public class CharacterAiming : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Ä«¸Ş¶ó Æ®·£½ºÆûÀÇ Y°ªÀ» °¡Áö°í
+        // ì¹´ë©”ë¼ íŠ¸ëœìŠ¤í¼ì˜ Yê°’ì„ ê°€ì§€ê³ 
         float yawControl = mainCamera.transform.eulerAngles.y;
 
-        // Ä«¸Ş¶ó°¡ º¸´Â ¹æÇâÀ¸·Î Ä³¸¯ÅÍ¸¦ È¸Àü ½ÃÅ´
+        // ì¹´ë©”ë¼ê°€ ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ìºë¦­í„°ë¥¼ íšŒì „ ì‹œí‚´
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawControl, 0), turnSpeed * Time.fixedDeltaTime);
     }
 

@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class CharacterLocomotion : MonoBehaviour
 {
+    public Animator rigController;
     public float jumpHeight;
     public float gravity;
     public float stepDown;
@@ -11,36 +13,59 @@ public class CharacterLocomotion : MonoBehaviour
 
     Animator animator;
     CharacterController characterController;
+    ActiveWeapon activeWeapon;
+    ReloadWeapon reloadWeapon;
     Vector3 rootMotion;
     Vector3 velocity;
 
     bool isJumping;
 
     Vector2 input;
-
+    int isSprintingParam = Animator.StringToHash("IsSprinting");
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
+        activeWeapon = GetComponent<ActiveWeapon>();
+        reloadWeapon = GetComponent<ReloadWeapon>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // �Է� ���� �޾�
+        // 입력 처리
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");
 
-        // �ִϸ��̼��� ������ �Ķ���ͷ� ����
+        // 입력 전달
         animator.SetFloat("InputX", input.x);
         animator.SetFloat("InputY", input.y);
+
+        UpdateIsSprinting();
 
         if (Input.GetButton("Jump"))
         {
             Jump();
         }
+    }
+
+    bool IsSprinting()
+    {
+        bool isSprinting = Input.GetKey(KeyCode.LeftShift);
+        bool isFiring = activeWeapon.IsFiring();
+        bool isReloading = reloadWeapon.isReloading;
+        bool isChanging = activeWeapon.isChanging;
+        return isSprinting && !isFiring && !isReloading && !isChanging;
+    }
+
+    private void UpdateIsSprinting()
+    {
+        bool isSprinting = IsSprinting();
+        animator.SetBool(isSprintingParam, isSprinting);
+        rigController.SetBool(isSprintingParam, isSprinting);
+        rigController.SetInteger("WeaponIndex", activeWeapon.GetActiveWeaponIndex());
     }
 
     private void OnAnimatorMove()
@@ -50,11 +75,11 @@ public class CharacterLocomotion : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isJumping) {    // ���߿� �ִ� ����
+        if (isJumping) {
             UpdateInAir();
         }
         else
-        {              // �ٴڿ� �پ� �ִ� ����
+        {              
             UpdateOnGround();
         }
     }
