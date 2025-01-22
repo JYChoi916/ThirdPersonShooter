@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using System.Collections;
-using Unity.Cinemachine;
+using Cinemachine;
 
 
 public class ActiveWeapon : MonoBehaviour
@@ -20,7 +20,7 @@ public class ActiveWeapon : MonoBehaviour
 
     public Animator rigController;
 
-    public CinemachineOrbitalFollow playerCamera;
+    CharacterAiming aiming;
 
     public AmmoWidget ammoWidget;
 
@@ -42,6 +42,7 @@ public class ActiveWeapon : MonoBehaviour
         }
 
         reloadWeapon = GetComponent<ReloadWeapon>();
+        aiming = GetComponent<CharacterAiming>();
     }
 
     public bool IsFiring()
@@ -118,13 +119,15 @@ public class ActiveWeapon : MonoBehaviour
         }
     }
 
-    public void Equip(RaycastWeapon newWeapon, Vector3 localPosition)
+    public void Equip(RaycastWeapon weaponPrefab, Vector3 localPosition)
     {
         var currentWeapon = GetWeapon(activeWeaponIndex);
-        if (currentWeapon != null && currentWeapon.weaponName == newWeapon.weaponName && isHolstered == false)
+        if (currentWeapon != null && currentWeapon.weaponName == weaponPrefab.weaponName && isHolstered == false)
         {
             return;
         }
+
+        RaycastWeapon newWeapon = Instantiate(weaponPrefab);
 
         int weaponSlotIndex = (int)newWeapon.weaponSlot;
         var weapon = GetWeapon(weaponSlotIndex);
@@ -139,7 +142,7 @@ public class ActiveWeapon : MonoBehaviour
         weapon.transform.parent = weaponSlots[weaponSlotIndex];
         weapon.transform.localPosition = localPosition;
         weapon.transform.localRotation = Quaternion.identity;
-        weapon.recoil.playerCamera = playerCamera;
+        weapon.recoil.aiming = aiming;
         weapon.recoil.rigController = rigController;
         equipped_weapons[weaponSlotIndex] = weapon;
 

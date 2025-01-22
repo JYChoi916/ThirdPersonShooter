@@ -1,9 +1,9 @@
 using UnityEngine;
-using Unity.Cinemachine;
+using Cinemachine;
 
 public class WeaponRecoil : MonoBehaviour
 {
-    [HideInInspector] public CinemachineOrbitalFollow playerCamera;
+    [HideInInspector] public CharacterAiming aiming;
     [HideInInspector] public CinemachineImpulseSource cameraShake;
     [HideInInspector] public Animator rigController;
 
@@ -11,6 +11,7 @@ public class WeaponRecoil : MonoBehaviour
     public float verticalRecoil;
     public float horizontalRecoil;
     public float duration;
+    public float recoilModifier = 1.0f;
 
     float time;
 
@@ -39,8 +40,8 @@ public class WeaponRecoil : MonoBehaviour
         if (time > 0)
         {
             float hRecoil = Random.Range(-horizontalRecoil, horizontalRecoil);
-            playerCamera.VerticalAxis.Value -= (verticalRecoil * Time.deltaTime) / duration;
-            playerCamera.HorizontalAxis.Value += (hRecoil * Time.deltaTime) / duration;
+            aiming.yAxis.Value -= (verticalRecoil * Time.deltaTime) / duration * recoilModifier;
+            aiming.xAxis.Value += (hRecoil * Time.deltaTime) / duration * recoilModifier;
             time -= Time.deltaTime;
         }
     }

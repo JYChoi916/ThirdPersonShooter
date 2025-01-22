@@ -9,8 +9,7 @@ public class WeaponPickup : MonoBehaviour
         ActiveWeapon activeWeapon = other.GetComponent<ActiveWeapon>();
         if (activeWeapon)
         {
-            RaycastWeapon newWeapon = Instantiate(weaponPrefab);
-            activeWeapon.Equip(newWeapon, weaponPrefab.transform.localPosition);
+            activeWeapon.Equip(weaponPrefab, weaponPrefab.transform.localPosition);
         }
     }
 }
