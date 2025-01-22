@@ -63,7 +63,10 @@ public class CharacterAiming : MonoBehaviour
 
         xAxis.Update(Time.deltaTime);
         yAxis.Update(Time.deltaTime);
+    }
 
-        cameraLookAt.eulerAngles = new Vector3( yAxis.Value, xAxis.Value, 0);
+    private void LateUpdate()
+    {
+        cameraLookAt.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
     }
 }
