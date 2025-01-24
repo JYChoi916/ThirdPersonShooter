@@ -15,6 +15,7 @@ public class CharacterAiming : MonoBehaviour
     Camera mainCamera;
     Animator animator;
     ActiveWeapon activeWeapon;
+    PlayerData playerData;
     int isAimingParam = Animator.StringToHash("IsAiming");
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,6 +28,7 @@ public class CharacterAiming : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         animator = GetComponent<Animator>();
         activeWeapon = GetComponent<ActiveWeapon>();
+        playerData = GetComponent<PlayerData>();
     }
 
     // Update is called once per frame

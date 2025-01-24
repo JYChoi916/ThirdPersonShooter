@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1802259668664235871}
   - component: {fileID: 3837060817547757219}
   - component: {fileID: 7872658647717710828}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: laserInner
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7467677914753715593}
   - component: {fileID: 7606755295042730911}
   - component: {fileID: 372955819978134782}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: glow
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -4930,7 +4930,8 @@ GameObject:
   - component: {fileID: 942211453970436178}
   - component: {fileID: 830950767492404496}
   - component: {fileID: 5712016429780218261}
-  m_Layer: 0
+  - component: {fileID: -2414397119465069508}
+  m_Layer: 10
   m_Name: LaserPurple_Projectile
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -9782,7 +9783,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -9804,7 +9805,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 5
   speed: 25
+  damage: 5
   impactEffect: {fileID: 4403325312132785796, guid: 314472069a850194f96c343127e42ea2, type: 3}
+--- !u!54 &-2414397119465069508
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638879863756809957}
+  serializedVersion: 4
+  m_Mass: 0.01
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &9023458102923916876
 GameObject:
   m_ObjectHideFlags: 0
@@ -9816,7 +9845,7 @@ GameObject:
   - component: {fileID: 8154526036389107611}
   - component: {fileID: 987924849785832326}
   - component: {fileID: 926571424331632770}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: laserOuter
   m_TagString: FX
   m_Icon: {fileID: 0}

@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - FX
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - 
   - Interior
   - Interior_navimesh
-  - 
-  - 
+  - Enemy
+  - EnemyProjectile
   - 
   - 
   - 

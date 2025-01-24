@@ -16,6 +16,7 @@ public class CharacterLocomotion : MonoBehaviour
     CharacterAiming characterAiming;
     ActiveWeapon activeWeapon;
     ReloadWeapon reloadWeapon;
+    PlayerData playerData;
     Vector3 rootMotion;
     Vector3 velocity;
 
@@ -32,11 +33,21 @@ public class CharacterLocomotion : MonoBehaviour
         characterAiming = GetComponent<CharacterAiming>();
         activeWeapon = GetComponent<ActiveWeapon>();
         reloadWeapon = GetComponent<ReloadWeapon>();
+        playerData = GetComponent<PlayerData>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerData.IsDead)
+        {
+            animator.Play("Dying");
+            rigController.Play("Weapon_Anim_Die");
+            characterAiming.enabled = false;
+            activeWeapon.enabled = false;
+            reloadWeapon.enabled = false;
+        }
+
         // 입력 처리
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");

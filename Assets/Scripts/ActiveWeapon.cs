@@ -78,6 +78,8 @@ public class ActiveWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         var weapon = GetWeapon(activeWeaponIndex);
 
         // To do :리로드 중에는 아래 로직을 모두 하지 말아야 한다.

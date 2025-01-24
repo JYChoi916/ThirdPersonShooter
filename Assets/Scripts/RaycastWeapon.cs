@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEditor.PackageManager;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class RaycastWeapon : MonoBehaviour
         public Vector3 initVelocity;
         public TrailRenderer tracer;
         public int bounce;
-        public float impulse;
+        public int damage;
     }
 
     public ActiveWeapon.WeaponSlot weaponSlot;
@@ -21,8 +22,8 @@ public class RaycastWeapon : MonoBehaviour
     public float bulletSpeed = 1000.0f;
     public float bulletDrop = 0.0f;
     public float maxBulletLifeTime = 3.0f;
-    public int maxBounce = 2;
-    public float bulletImpulse = 20f;
+    public int maxBounce = 1;
+    public int damage = 30;
 
     public ParticleSystem[] muzzleFlash;
     public ParticleSystem hitEffect;
@@ -64,7 +65,7 @@ public class RaycastWeapon : MonoBehaviour
         bullet.initVelocity = velocity;
         bullet.time = 0f;
         bullet.bounce = maxBounce;
-        bullet.impulse = bulletImpulse;
+        bullet.damage = damage;
         bullet.tracer = Instantiate(tracerEffect, position, Quaternion.identity);
         bullet.tracer.AddPosition(position);
         return bullet;
@@ -127,7 +128,7 @@ public class RaycastWeapon : MonoBehaviour
             bullet.time = maxBulletLifeTime;
             end = hitInfo.point;
 
-            // µµ≈∫
+            // ÎèÑÌÉÑ
             if (bullet.bounce > 0)
             {
                 bullet.time = 0;
@@ -136,11 +137,18 @@ public class RaycastWeapon : MonoBehaviour
                 bullet.bounce--;
             }
 
-            // √Êµπ ¿”∆ﬁΩ∫
+            // Ï∂©Îèå ÏûÑÌéÑÏä§
             var rb2d = hitInfo.collider.GetComponent<Rigidbody>();
             if (rb2d != null)
             {
-                rb2d.AddForceAtPosition(ray.direction * bullet.impulse, hitInfo.point, ForceMode.Impulse);
+                var enemyData = hitInfo.collider.gameObject.GetComponent<EnemyData>();
+                if (enemyData != null)
+                {
+                    if (enemyData.IsDead == false)
+                    {
+                        enemyData.Damage(bullet.damage);
+                    }
+                }
                 bullet.bounce = 0;
             }
         }

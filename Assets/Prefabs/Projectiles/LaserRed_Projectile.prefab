@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7235921824169719980}
   - component: {fileID: 1274425412975564860}
   - component: {fileID: 878731650401999989}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: laserInner
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 104682576167122256}
   - component: {fileID: 4411513530444856639}
   - component: {fileID: 6472385077846875696}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: laserOuter
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -5000,7 +5000,7 @@ GameObject:
   - component: {fileID: 2494181980158098614}
   - component: {fileID: 5430310018298877205}
   - component: {fileID: 490398151815464870}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: glow
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -9833,7 +9833,8 @@ GameObject:
   - component: {fileID: 5702322086407701866}
   - component: {fileID: 2085729380798899579}
   - component: {fileID: 3096277305354863292}
-  m_Layer: 0
+  - component: {fileID: 9195205509082215951}
+  m_Layer: 10
   m_Name: LaserRed_Projectile
   m_TagString: FX
   m_Icon: {fileID: 0}
@@ -14707,4 +14708,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 5
   speed: 15
+  damage: 10
   impactEffect: {fileID: 6285006236366920631, guid: 866fc70cac4a3d549a4e2d886597be3d, type: 3}
+--- !u!54 &9195205509082215951
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6741395369209344369}
+  serializedVersion: 4
+  m_Mass: 0.01
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1

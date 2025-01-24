@@ -2,13 +2,14 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 
 public class EnemyLocomotion : MonoBehaviour
 {
     public enum EnemyState
     {
-        Stopped,        // 멈춰 있을 때 (Test용)
-        Patrol,         // 플레이어를 발견하지 못했을 때
+        //Stopped,        // 멈춰 있을 때 (Test용)
+        //Patrol,         // 플레이어를 발견하지 못했을 때
         Trace,
         Attack,
         Die,
@@ -23,6 +24,7 @@ public class EnemyLocomotion : MonoBehaviour
     public Animator rigController;
     public EnemyWeapon weapon;
     public WeaponAnimationEvents animationEvents;
+    public MultiAimConstraint weaponAimConstraint;
 
     Vector3 startingPoint;
     Quaternion startingRotation;
@@ -30,19 +32,28 @@ public class EnemyLocomotion : MonoBehaviour
     GameObject player;
     NavMeshAgent agent;
     Animator animator;
+    EnemyData enemyData;
 
     Coroutine attackCoroutine = null;
+    Coroutine dieCouroutine = null;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.Find("Player");
+        Transform aimTargetTransform = Utility.RecursiveFindChild(player.transform, "Head");
+
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        state = EnemyState.Stopped;
+        state = EnemyState.Trace;
         startingPoint = transform.position;
         startingRotation = transform.rotation;
         animationEvents.weaponAnimationEvent.AddListener(OnAnimationEvent);
+        var data = weaponAimConstraint.data.sourceObjects;
+        data.SetTransform(0, aimTargetTransform);
+        weaponAimConstraint.data.sourceObjects = data;
+        GetComponent<RigBuilder>().Build();
+        enemyData = GetComponent<EnemyData>();
     }
 
     // Update is called once per frame
@@ -52,17 +63,23 @@ public class EnemyLocomotion : MonoBehaviour
 
         switch(state)
         {
-            case EnemyState.Stopped:
-                Stay();
-                break;
-            case EnemyState.Patrol:
-                Patrol();
-                break;
+            //case EnemyState.Stopped:
+            //    Stay();
+            //    break;
+            //case EnemyState.Patrol:
+            //    Patrol();
+            //    break;
             case EnemyState.Trace:
                 TracePlayer();
                 break;
             case EnemyState.Attack:
                 StartAttack();
+                break;
+            case EnemyState.Die:
+                if (dieCouroutine == null)
+                {
+                    dieCouroutine = StartCoroutine(Dying());
+                }
                 break;
         }
         animator.SetFloat("Speed", agent.velocity.magnitude);
@@ -70,11 +87,25 @@ public class EnemyLocomotion : MonoBehaviour
 
     void UpdateState()
     {
-        // 플레이어가 시야 안에 들어왔다면
-        if (CheckPlayerInSight())
+        if (enemyData.IsDead)
         {
-            // 공격 사거리 안에 들어왔다면
-            if (CheckPlayerInAttackRange())
+            animator.Play("Dying");
+            rigController.Play("Dying");
+            agent.isStopped = true;
+            state = EnemyState.Die;
+            if (weapon)
+            {
+                Destroy(weapon.gameObject);
+                weapon = null;
+            }
+            return;
+        }
+
+        // 플레이어가 시야 안에 들어왔다면
+        //if (CheckPlayerInSight())
+        //{
+        // 공격 사거리 안에 들어왔다면
+        if (CheckPlayerInAttackRange())
             {
                 // 공격 상태
                 state = EnemyState.Attack;
@@ -92,24 +123,24 @@ public class EnemyLocomotion : MonoBehaviour
                 // 공격 사거리 밖이라면 Trace 상태로 만들어 주자
                 state = EnemyState.Trace;
             }
-        }
-        else
-        // 아니라면
-        {
-            // 정찰 루트가 있다면
-            //if ()
-            //state = EnemyState.Patrol;
-            // 아니라면
-            if (attackCoroutine != null)
-            {
-                StopCoroutine(attackCoroutine);
-                attackCoroutine = null;
-            }
+        //}
+        //else
+        //// 아니라면
+        //{
+        //    // 정찰 루트가 있다면
+        //    //if ()
+        //    //state = EnemyState.Patrol;
+        //    // 아니라면
+        //    if (attackCoroutine != null)
+        //    {
+        //        StopCoroutine(attackCoroutine);
+        //        attackCoroutine = null;
+        //    }
 
-            rigController.SetBool("IsAttack", false);
-            rigController.Play("Aiming");
-            state = EnemyState.Stopped;
-        }
+        //    rigController.SetBool("IsAttack", false);
+        //    rigController.Play("Aiming");
+        //    state = EnemyState.Trace;
+        //}
     }
 
     bool CheckPlayerInSight()
@@ -208,6 +239,12 @@ public class EnemyLocomotion : MonoBehaviour
         }
 
         attackCoroutine = null;
+    }
+
+    IEnumerator Dying()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
     }
 
     void EnemyFire()

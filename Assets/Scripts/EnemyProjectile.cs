@@ -9,6 +9,9 @@ public class EnemyProjectile : MonoBehaviour
     // 발사체의 이동속도
     public float speed;
 
+    // 발사체의 데미지
+    public int damage;
+
     public GameObject impactEffect;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,19 +29,25 @@ public class EnemyProjectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.gameObject.name);
+
         // 임팩트 이펙트 발생
         Instantiate(impactEffect, transform.position, transform.rotation);
 
         if (other.tag == "Player")
         {
             // Player 데미지;
-
+            PlayerData playerData = other.gameObject.GetComponent<PlayerData>();
+            if(playerData && playerData.IsDead == false)
+            {
+                playerData.Damage(damage);
+            }
         }
 
         // 모든 코루틴을 멈추고
         StopAllCoroutines();
 
-        // 자기자신을 파괴
+        // 자기자신을 파괴 
         Destroy(gameObject);
     }
 
