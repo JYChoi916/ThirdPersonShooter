@@ -21,6 +21,8 @@ public class EnemyLocomotion : MonoBehaviour
     public float attackDelay = 1f;
 
     public Animator rigController;
+    public EnemyWeapon weapon;
+    public WeaponAnimationEvents animationEvents;
 
     Vector3 startingPoint;
     Quaternion startingRotation;
@@ -40,6 +42,7 @@ public class EnemyLocomotion : MonoBehaviour
         state = EnemyState.Stopped;
         startingPoint = transform.position;
         startingRotation = transform.rotation;
+        animationEvents.weaponAnimationEvent.AddListener(OnAnimationEvent);
     }
 
     // Update is called once per frame
@@ -78,7 +81,14 @@ public class EnemyLocomotion : MonoBehaviour
             }
             else
             {
+                if (attackCoroutine != null)
+                {
+                    StopCoroutine(attackCoroutine);
+                    attackCoroutine = null;
+                }
+
                 rigController.SetBool("IsAttack", false);
+                rigController.Play("Aiming");
                 // 공격 사거리 밖이라면 Trace 상태로 만들어 주자
                 state = EnemyState.Trace;
             }
@@ -90,7 +100,14 @@ public class EnemyLocomotion : MonoBehaviour
             //if ()
             //state = EnemyState.Patrol;
             // 아니라면
+            if (attackCoroutine != null)
+            {
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
+            }
+
             rigController.SetBool("IsAttack", false);
+            rigController.Play("Aiming");
             state = EnemyState.Stopped;
         }
     }
@@ -171,6 +188,9 @@ public class EnemyLocomotion : MonoBehaviour
     {
         do
         {
+            if (state != EnemyState.Attack)
+                break;
+
             yield return new WaitForSeconds(0.05f);
         }
         while (rigController.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f);
@@ -181,11 +201,29 @@ public class EnemyLocomotion : MonoBehaviour
             if (state != EnemyState.Attack)
                 break;
 
-            Debug.Log("Attack!!");
-                
+            // 적 탄 발사
+            EnemyFire();
+
             yield return new WaitForSeconds(attackDelay);
         }
 
         attackCoroutine = null;
+    }
+
+    void EnemyFire()
+    {
+        // 반동 애니메이션
+        rigController.Play("Weapon_Recoil");
+    }
+
+    void OnAnimationEvent(string eventName)
+    {
+        switch(eventName)
+        {
+            case "Shot":
+                // 탄환 생성
+                weapon.Shot();
+                break;
+        }
     }
 }
