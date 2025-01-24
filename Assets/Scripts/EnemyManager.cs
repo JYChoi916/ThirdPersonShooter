@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     public float initialSpawnDelay = 5f;
     public int initialSpawnCount = 1;
+    public float waveDelay = 10f;
     public float timePerWave = 20f;
     public EnemySpawnPoint[] spawnPoints;
 
@@ -80,6 +81,8 @@ public class EnemyManager : MonoBehaviour
 
                 yield return new WaitForSeconds(initialSpawnDelay);
             }
+
+            yield return new WaitForSeconds(waveDelay);
         }
     }
 
