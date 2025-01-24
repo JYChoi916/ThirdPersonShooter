@@ -87,6 +87,13 @@ public class EnemyManager : MonoBehaviour
     {
         int spawnPointIndex = Random.Range(0, spawnPoints.Length - 1);
         GameObject enemy = spawnPoints[spawnPointIndex].SpawnEnemy();
+        enemy.GetComponent<EnemyLocomotion>().manager = this;
         spawnedEnemyList.Add(enemy);
+    }
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        spawnedEnemyList.Remove(enemy);
+        Destroy(enemy);
     }
 }

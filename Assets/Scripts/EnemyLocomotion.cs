@@ -26,6 +26,9 @@ public class EnemyLocomotion : MonoBehaviour
     public WeaponAnimationEvents animationEvents;
     public MultiAimConstraint weaponAimConstraint;
 
+    [HideInInspector]
+    public EnemyManager manager;
+
     Vector3 startingPoint;
     Quaternion startingRotation;
 
@@ -244,7 +247,7 @@ public class EnemyLocomotion : MonoBehaviour
     IEnumerator Dying()
     {
         yield return new WaitForSeconds(5f);
-        Destroy(gameObject);
+        manager.RemoveEnemy(gameObject);
     }
 
     void EnemyFire()
