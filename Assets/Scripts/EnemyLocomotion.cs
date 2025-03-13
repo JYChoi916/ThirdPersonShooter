@@ -31,14 +31,14 @@ public class EnemyLocomotion : MonoBehaviour
 
     Vector3 startingPoint;
     Quaternion startingRotation;
-
     GameObject player;
     NavMeshAgent agent;
     Animator animator;
-    EnemyData enemyData;
-
     Coroutine attackCoroutine = null;
     Coroutine dieCouroutine = null;
+
+    EnemyContext context;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,7 +56,6 @@ public class EnemyLocomotion : MonoBehaviour
         data.SetTransform(0, aimTargetTransform);
         weaponAimConstraint.data.sourceObjects = data;
         GetComponent<RigBuilder>().Build();
-        enemyData = GetComponent<EnemyData>();
     }
 
     // Update is called once per frame
@@ -90,7 +89,7 @@ public class EnemyLocomotion : MonoBehaviour
 
     void UpdateState()
     {
-        if (enemyData.IsDead)
+        if (context.IsDead)
         {
             animator.Play("Dying");
             rigController.Play("Dying");
