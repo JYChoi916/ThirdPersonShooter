@@ -29,6 +29,13 @@ public class CharacterAiming : MonoBehaviour
         animator = GetComponent<Animator>();
         activeWeapon = GetComponent<ActiveWeapon>();
         playerData = GetComponent<PlayerData>();
+
+        // 초기 카메라 각도를 현재 카메라 방향으로 설정
+        xAxis.Value = mainCamera.transform.eulerAngles.y;
+        yAxis.Value = mainCamera.transform.eulerAngles.x;
+
+        // 첫 프레임의 마우스 입력 초기화
+        Input.ResetInputAxes();
     }
 
     // Update is called once per frame
@@ -53,6 +60,9 @@ public class CharacterAiming : MonoBehaviour
         //    aimRigLayer.weight -= Time.deltaTime / aimDuration;
         //    laserDotObject.SetActive(false);
         //}
+
+        // 비정상적인 deltaTime 스킵
+        if (Time.deltaTime > 0.1f) return;
 
         isAiming = Input.GetButton("Fire2");
         animator.SetBool(isAimingParam, isAiming);

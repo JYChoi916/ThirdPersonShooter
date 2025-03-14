@@ -109,23 +109,23 @@ public class EnemyLocomotion : MonoBehaviour
         //{
         // 공격 사거리 안에 들어왔다면
         if (CheckPlayerInAttackRange())
+        {
+            // 공격 상태
+            state = EnemyState.Attack;
+        }
+        else
+        {
+            if (attackCoroutine != null)
             {
-                // 공격 상태
-                state = EnemyState.Attack;
+                StopCoroutine(attackCoroutine);
+                attackCoroutine = null;
             }
-            else
-            {
-                if (attackCoroutine != null)
-                {
-                    StopCoroutine(attackCoroutine);
-                    attackCoroutine = null;
-                }
 
-                rigController.SetBool("IsAttack", false);
-                rigController.Play("Aiming");
-                // 공격 사거리 밖이라면 Trace 상태로 만들어 주자
-                state = EnemyState.Trace;
-            }
+            rigController.SetBool("IsAttack", false);
+            rigController.Play("Aiming");
+            // 공격 사거리 밖이라면 Trace 상태로 만들어 주자
+            state = EnemyState.Trace;
+        }
         //}
         //else
         //// 아니라면
