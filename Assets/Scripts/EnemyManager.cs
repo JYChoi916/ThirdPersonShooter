@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour
             waveCleared = true;
             foreach (GameObject enemyObject in spawnedEnemyList)
             {
-                var enemy = enemyObject.GetComponent<EnemyContext>();
+                var enemy = enemyObject.GetComponent<EnemyData>();
                 if(enemy.IsDead == false)
                 {
                     waveCleared = false;

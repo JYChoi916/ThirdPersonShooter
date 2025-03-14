@@ -141,7 +141,7 @@ public class RaycastWeapon : MonoBehaviour
             var rb2d = hitInfo.collider.GetComponent<Rigidbody>();
             if (rb2d != null)
             {
-                var enemyData = hitInfo.collider.gameObject.GetComponent<EnemyContext>();
+                var enemyData = hitInfo.collider.gameObject.GetComponent<EnemyData>();
                 if (enemyData != null)
                 {
                     if (enemyData.IsDead == false)
